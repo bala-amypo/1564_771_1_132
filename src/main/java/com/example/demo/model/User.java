@@ -22,35 +22,33 @@ public class User{
     public long getId() {
         return id;
     }
-    public UserProfile getUserA() {
-        return userA;
+    public String fullName() {
+        return fullName;
     }
-    public UserProfile getUserB() {
-        return userB;
+    public String email() {
+        return email;
     }
-    public Skill getSkillOfferByA() {
-        return skillOfferByA;
+    public String password() {
+        return password;
     }
-    public Skill getSkillOfferByB() {
-        return skillOfferByB;
+    public String role() {
+        return role;
     }
-    public Timestamp getMatchedAt() {
-        return matchedAt;
+    public LocalDateTime createdAt() {
+        return createdAt;
     }
-    public String getRules() {
-        return rules;
-    }
+    
     public void setId(long id) {
         this.id = id;
     }
-    public void setUserA(UserProfile userA) {
-        this.userA = userA;
+    public void fullName(String fullName) {
+        this.fullName=fullName;
     }
-    public void setUserB(UserProfile userB) {
-        this.userB = userB;
+    public void email(String email ) {
+        this.email=email;
     }
-    public void setSkillOfferByA(Skill skillOfferByA) {
-        this.skillOfferByA = skillOfferByA;
+    public void password(String password) {
+        this.pa;
     }
     public void setSkillOfferByB(Skill skillOfferByB) {
         this.skillOfferByB = skillOfferByB;
