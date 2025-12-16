@@ -41,27 +41,24 @@ public class User{
     public void setId(long id) {
         this.id = id;
     }
-    public void fullName(String fullName) {
+    public void setfullName(String fullName) {
         this.fullName=fullName;
     }
-    public void email(String email ) {
+    public void setemail(String email ) {
         this.email=email;
     }
-    public void password(String password) {
-        this.pa;
+    public void setpassword(String password) {
+        this.password=password;
     }
-    public void setSkillOfferByB(Skill skillOfferByB) {
-        this.skillOfferByB = skillOfferByB;
+    public void serrole(String role) {
+        this.role = role;
     }
-    public void setMatchedAt(Timestamp matchedAt) {
-        this.matchedAt = matchedAt;
+    public void setcreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
-    public void setRules(String rules) {
-        this.rules = rules;
-    }
+    
     
     
 }
 
 
-}
