@@ -1,5 +1,7 @@
 package com.example.Barter.model;
 
+import java.time.LocalDateTime;
+
 public class User{
     private long id;
     private String fullName;
