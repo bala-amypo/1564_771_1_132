@@ -1,4 +1,5 @@
 // src/main/java/com/example/demo/controller/UserProfileController.java
+package com.example.demo.repository;
 package com.example.demo.controller;
 
 import com.example.demo.model.UserProfile;
