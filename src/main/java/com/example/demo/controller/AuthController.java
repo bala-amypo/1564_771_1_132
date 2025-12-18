@@ -1,33 +1,23 @@
-package com.example.demo.controller;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import com.example.demo.model.User;
-import com.example.demo.service.UserService;
-
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
-   
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User savedUser = userService.register(user);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    public User registerUser(@RequestBody User user) {
+        return userService.register(user);
     }
 
-    
-    @GetMapping("/email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        User user = userService.findByEmail(email);
-        return ResponseEntity.ok(user);
+    @GetMapping("/user/{email}")
+    public Optional<User> getUserByEmail(@PathVariable String email) {
+        return userService.findByEmail(email);
+    }
+
+    @DeleteMapping("/user/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return "User deleted successfully!";
     }
 }
