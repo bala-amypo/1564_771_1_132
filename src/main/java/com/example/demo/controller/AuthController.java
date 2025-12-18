@@ -1,8 +1,6 @@
+// src/main/java/com/example/demo/controller/AuthController.java
 package com.example.demo.controller;
 
-import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.LoginResponse;
-import com.example.demo.dto.RegisterRequest;
 import com.example.demo.model.User;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
@@ -16,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/auth")
-@Tag(name = "Authentication", description = "Endpoints for user registration and login")
+@Tag(name = "Authentication", description = "User registration and login")
 public class AuthController {
 
     private final UserService userService;
@@ -32,22 +32,20 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterRequest request) {
-        User user = new User();
-        user.setFullName(request.getFullName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        User savedUser = userService.register(user);
-        return ResponseEntity.ok(savedUser);
+    public ResponseEntity<User> register(@RequestBody User user) {
+        User registeredUser = userService.register(user);
+        return ResponseEntity.ok(registeredUser);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody User user) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword())
         );
-        User user = userService.findByEmail(request.getEmail());
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole(), user.getId());
-        return ResponseEntity.ok(new LoginResponse(token));
+
+        User foundUser = userService.findByEmail(user.getEmail());
+        String token = jwtUtil.generateToken(foundUser.getEmail(), foundUser.getRole(), foundUser.getId());
+
+        return ResponseEntity.ok(Map.of("token", token));
     }
 }
