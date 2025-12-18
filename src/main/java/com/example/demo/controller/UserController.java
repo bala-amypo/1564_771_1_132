@@ -1,11 +1,11 @@
-package com.example.Barter.controller;
+package com.example.demo.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.Barter.model.User;
-import com.example.Barter.service.UserService;
+import com.example.demo.model.User;
+import com.example.demo.service.UserService;
 
 @RestController
 @RequestMapping("/api/users")
