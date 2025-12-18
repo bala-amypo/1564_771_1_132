@@ -17,11 +17,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User savedUser = userService.register(user);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
-    }
+   @PostMapping
+    public User createUser(@RequestBody User user) {
+    return userService.createUser(user);
+}
+
 
     
     @GetMapping("/email/{email}")

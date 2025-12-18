@@ -1,12 +1,11 @@
 package com.example.demo.service;
 
-import org.springframework.stereotype.Service;
-
 import com.example.demo.model.User;
+import java.util.List;
 
-@Service
 public interface UserService {
-    UserService register(User user);
-    UserService findByEmail(String email);
-    
+    User createUser(User user);
+    List<User> getAllUsers();
+    User getUserById(Long id);
+    void deleteUser(Long id);
 }
