@@ -1,10 +1,8 @@
-// src/main/java/com/example/demo/controller/UserProfileController.java
 package com.example.demo.controller;
 
 import com.example.demo.model.UserProfile;
 import com.example.demo.service.UserProfileService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,35 +12,34 @@ import java.util.List;
 @Tag(name = "User Profiles")
 public class UserProfileController {
 
-    private final UserProfileService userProfileService;
+    private final UserProfileService service;
 
-    public UserProfileController(UserProfileService userProfileService) {
-        this.userProfileService = userProfileService;
+    public UserProfileController(UserProfileService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public ResponseEntity<UserProfile> createUser(@RequestBody UserProfile user) {
-        return ResponseEntity.ok(userProfileService.createUser(user));
+    public UserProfile createUser(@RequestBody UserProfile user) {
+        return service.createUser(user);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserProfile> updateUser(@PathVariable Long id, @RequestBody UserProfile user) {
-        return ResponseEntity.ok(userProfileService.updateUser(id, user));
+    public UserProfile updateUser(@PathVariable Long id, @RequestBody UserProfile user) {
+        return service.updateUser(id, user);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserProfile> getUserById(@PathVariable Long id) {
-        return ResponseEntity.ok(userProfileService.getUserById(id));
+    public UserProfile getUserById(@PathVariable Long id) {
+        return service.getUserById(id);
     }
 
     @GetMapping
-    public ResponseEntity<List<UserProfile>> getAllUsers() {
-        return ResponseEntity.ok(userProfileService.getAllUsers());
+    public List<UserProfile> getAllUsers() {
+        return service.getAllUsers();
     }
 
     @PutMapping("/{id}/deactivate")
-    public ResponseEntity<Void> deactivateUser(@PathVariable Long id) {
-        userProfileService.deactivateUser(id);
-        return ResponseEntity.ok().build();
+    public void deactivateUser(@PathVariable Long id) {
+        service.deactivateUser(id);
     }
 }
