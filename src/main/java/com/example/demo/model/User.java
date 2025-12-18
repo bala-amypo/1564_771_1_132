@@ -1,4 +1,4 @@
-package com.example.Barter.model;
+package com.example.demo.model;
 @Entity
 import java.time.LocalDateTime;
 

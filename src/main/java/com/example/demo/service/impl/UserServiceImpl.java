@@ -1,10 +1,10 @@
-package com.example.Barter.service.impl;
+package com.example.demo.service.impl;
 
 import org.springframework.stereotype.Service;
 
-import com.example.Barter.model.User;
-import com.example.Barter.repository.UserRepository;
-import com.example.Barter.service.UserService;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.service.UserService;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
