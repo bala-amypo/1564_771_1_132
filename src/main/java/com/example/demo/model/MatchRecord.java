@@ -1,72 +1,65 @@
-package com.example.Barter.model;
+package com.example.demo.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+import java.time.LocalDateTime;
+
 @Entity
-import java.security.Timestamp;
-
 public class MatchRecord {
-    private long id;
-    private UserProfile userA;
-    private UserProfile userB;
-    private Skill skillOfferByA;
-    private Skill skillOfferByB;
-    private Timestamp matchedAt;
-    private String rules;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public MatchRecord(){
+    private String matchName;
+    private String result;
+    private LocalDateTime playedAt;
 
+    // ✅ No-arg constructor
+    public MatchRecord() {
     }
-    public MatchRecord(long id, UserProfile userA, UserProfile userB, Skill skillOfferByA, Skill skillOfferByB,
-            Timestamp matchedAt, String rules) {
+
+    // ✅ Parameterized constructor
+    public MatchRecord(Long id, String matchName, String result, LocalDateTime playedAt) {
         this.id = id;
-        this.userA = userA;
-        this.userB = userB;
-        this.skillOfferByA = skillOfferByA;
-        this.skillOfferByB = skillOfferByB;
-        this.matchedAt = matchedAt;
-        this.rules = rules;
+        this.matchName = matchName;
+        this.result = result;
+        this.playedAt = playedAt;
     }
-    public long getId() {
+
+    // ✅ Getters & Setters
+    public Long getId() {
         return id;
     }
-    public UserProfile getUserA() {
-        return userA;
-    }
-    public UserProfile getUserB() {
-        return userB;
-    }
-    public Skill getSkillOfferByA() {
-        return skillOfferByA;
-    }
-    public Skill getSkillOfferByB() {
-        return skillOfferByB;
-    }
-    public Timestamp getMatchedAt() {
-        return matchedAt;
-    }
-    public String getRules() {
-        return rules;
-    }
-    public void setId(long id) {
+
+    public void setId(Long id) {
         this.id = id;
     }
-    public void setUserA(UserProfile userA) {
-        this.userA = userA;
+
+    public String getMatchName() {
+        return matchName;
     }
-    public void setUserB(UserProfile userB) {
-        this.userB = userB;
+
+    public void setMatchName(String matchName) {
+        this.matchName = matchName;
     }
-    public void setSkillOfferByA(Skill skillOfferByA) {
-        this.skillOfferByA = skillOfferByA;
+
+    public String getResult() {
+        return result;
     }
-    public void setSkillOfferByB(Skill skillOfferByB) {
-        this.skillOfferByB = skillOfferByB;
+
+    public void setResult(String result) {
+        this.result = result;
     }
-    public void setMatchedAt(Timestamp matchedAt) {
-        this.matchedAt = matchedAt;
+
+    public LocalDateTime getPlayedAt() {
+        return playedAt;
     }
-    public void setRules(String rules) {
-        this.rules = rules;
+
+    public void setPlayedAt(LocalDateTime playedAt) {
+        this.playedAt = playedAt;
     }
-    
-    
 }
