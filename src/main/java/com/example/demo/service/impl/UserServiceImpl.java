@@ -39,4 +39,9 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() ->
                         new EntityNotFoundException("User not found with email: " + email));
     }
+    @Override
+    public void deleteUser(Long id) {
+    userRepository.deleteById(id);
+}
+
 }
