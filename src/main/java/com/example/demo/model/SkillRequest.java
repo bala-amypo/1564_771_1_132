@@ -1,5 +1,5 @@
 package com.example.Barter.model;
-
+@Entity
 public class Skillrequest {
     private long id;
     private UserProfile user;

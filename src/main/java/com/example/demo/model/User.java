@@ -1,5 +1,5 @@
 package com.example.Barter.model;
-
+@Entity
 import java.time.LocalDateTime;
 
 public class User{

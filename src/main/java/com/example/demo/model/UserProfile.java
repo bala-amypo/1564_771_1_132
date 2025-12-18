@@ -1,7 +1,7 @@
 package com.example.Barter.model;
 
 import java.security.Timestamp;
-
+@Entity
 public class UserProfile {
     private int id;
     private String name;

@@ -1,5 +1,5 @@
 package com.example.Barter.model;
-
+@Entity
 import java.security.Timestamp;
 
 public class MatchRecord {
