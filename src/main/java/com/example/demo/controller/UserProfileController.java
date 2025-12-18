@@ -1,5 +1,4 @@
 // src/main/java/com/example/demo/controller/UserProfileController.java
-package com.example.demo.repository;
 package com.example.demo.controller;
 
 import com.example.demo.model.UserProfile;
@@ -12,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-@Tag(name = "User Profiles", description = "Manage user profiles")
+@Tag(name = "User Profiles")
 public class UserProfileController {
 
     private final UserProfileService userProfileService;

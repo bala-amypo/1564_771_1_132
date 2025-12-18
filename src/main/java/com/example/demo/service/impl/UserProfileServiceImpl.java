@@ -23,7 +23,7 @@ public class UserProfileServiceImpl implements UserProfileService {
             throw new RuntimeException("Email already exists");
         }
         if (user.getUsername() != null && userProfileRepository.findByUsername(user.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists");
+            throw new RuntimeException("Email already exists"); // You can change to "Username already exists" if needed
         }
         return userProfileRepository.save(user);
     }

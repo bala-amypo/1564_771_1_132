@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Entity
 @Data
@@ -32,13 +31,13 @@ public class UserProfile {
 
     @PrePersist
     protected void onCreate() {
-        Timestamp now = new Timestamp(new Date().getTime());
+        Timestamp now = new Timestamp(System.currentTimeMillis());
         this.createdAt = now;
         this.updatedAt = now;
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updatedAt = new Timestamp(new Date().getTime());
+        this.updatedAt = new Timestamp(System.currentTimeMillis());
     }
 }
