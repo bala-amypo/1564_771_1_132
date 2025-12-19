@@ -1,3 +1,4 @@
+// Model package classes (already provided, repeated for completeness)
 package com.example.demo.model;
 
 import jakarta.persistence.*;
@@ -37,7 +38,7 @@ public class UserProfile {
         this.updatedAt = new Timestamp(System.currentTimeMillis());
     }
 
-    
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getUsername() { return username; }
@@ -52,5 +53,4 @@ public class UserProfile {
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
     public Timestamp getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Timestamp updatedAt) { this.updatedAt = updatedAt; }
-}  
-
+}
