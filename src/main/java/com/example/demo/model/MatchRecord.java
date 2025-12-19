@@ -12,20 +12,20 @@ public class MatchRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "user_a_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_a_id", nullable = false)
     private UserProfile userA;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "user_b_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_b_id", nullable = false)
     private UserProfile userB;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "skill_offered_by_a_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "skill_offered_by_a_id", nullable = false)
     private Skill skillOfferedByA;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "skill_offered_by_b_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "skill_offered_by_b_id", nullable = false)
     private Skill skillOfferedByB;
 
     private Timestamp matchedAt;
