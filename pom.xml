@@ -75,15 +75,10 @@
 	<artifactId>surefire-testng</artifactId>
 	<version>3.2.5</version>
 </dependency>
-<dependencies>
-    <!-- Spring Boot Starter Security -->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
-
-    <!-- Other dependencies -->
-</dependencies>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
 
 </dependencies>
 
@@ -98,6 +93,13 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.2.5</version>
 			</plugin>
+			<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.2.2</version> 
+    <relativePath/> 
+</parent>
+
 		</plugins>
 	</build>
 
