@@ -10,12 +10,12 @@ public class SkillOffer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "user_id", nullable = false)
     private UserProfile user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "skill_id", nullable = false)
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "skill_id", nullable = false)
     private Skill skill;
 
     private String experienceLevel; // Beginner, Intermediate, Expert
