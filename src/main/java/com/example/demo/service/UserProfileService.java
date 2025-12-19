@@ -1,8 +1,9 @@
 // Service interfaces
 package com.example.demo.service;
 
-import com.example.demo.model.UserProfile;
 import java.util.List;
+
+import com.example.demo.model.UserProfile;
 
 public interface UserProfileService {
     UserProfile createUser(UserProfile user);
