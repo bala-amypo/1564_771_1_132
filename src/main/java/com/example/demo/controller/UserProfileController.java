@@ -1,9 +1,11 @@
+// com/example/demo/controller/UserProfileController.java
 package com.example.demo.controller;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.model.UserProfile;
 import com.example.demo.service.UserProfileService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
