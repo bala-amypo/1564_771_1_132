@@ -1,7 +1,7 @@
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "skill_requests")
@@ -13,16 +13,22 @@ public class SkillRequest {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    // This ignores the Hibernate internal proxy fields that cause the 500 error
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private UserProfile user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "skill_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Skill skill;
 
     private String urgencyLevel; // Low, Medium, High
 
     @Column(nullable = false)
     private Boolean active = true;
+
+    // Default Constructor
+    public SkillRequest() {}
 
     // Getters and Setters
     public Long getId() { return id; }
