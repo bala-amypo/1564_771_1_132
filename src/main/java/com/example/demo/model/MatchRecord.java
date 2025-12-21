@@ -1,10 +1,10 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.sql.Timestamp;
 
 @Entity
-@Table(name = "match_records")
+@Table(name = "skill_matches") // Updated table name per requirements
 public class MatchRecord {
 
     @Id
@@ -13,27 +13,31 @@ public class MatchRecord {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_a_id", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private UserProfile userA;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_b_id", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private UserProfile userB;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "skill_a_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JoinColumn(name = "skill_offered_by_a_id", nullable = false)
     private Skill skillOfferedByA;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "skill_b_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JoinColumn(name = "skill_offered_by_b_id", nullable = false)
     private Skill skillOfferedByB;
 
-    private String status; // PENDING, ACCEPTED, REJECTED
+    private Timestamp matchedAt;
+
+    @Column(nullable = false)
+    private String status = "PENDING"; // Default status per requirements
 
     public MatchRecord() {}
+
+    @PrePersist
+    protected void onCreate() {
+        this.matchedAt = new Timestamp(System.currentTimeMillis()); // Auto-populated per requirements
+    }
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -50,6 +54,9 @@ public class MatchRecord {
 
     public Skill getSkillOfferedByB() { return skillOfferedByB; }
     public void setSkillOfferedByB(Skill skillOfferedByB) { this.skillOfferedByB = skillOfferedByB; }
+
+    public Timestamp getMatchedAt() { return matchedAt; }
+    public void setMatchedAt(Timestamp matchedAt) { this.matchedAt = matchedAt; }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
