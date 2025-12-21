@@ -1,9 +1,7 @@
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-
-import java.sql.Timestamp;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "match_records")
@@ -14,44 +12,26 @@ public class MatchRecord {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_a_id", nullable = false)
-    private UserProfile userA;
+    @JoinColumn(name = "offer_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private SkillOffer skillOffer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_b_id", nullable = false)
-    private UserProfile userB;
+    @JoinColumn(name = "request_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private SkillRequest skillRequest;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "skill_offered_by_a_id", nullable = false)
-    private Skill skillOfferedByA;
+    private String status; // PENDING, ACCEPTED, REJECTED
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "skill_offered_by_b_id", nullable = false)
-    private Skill skillOfferedByB;
-
-    private Timestamp matchedAt;
-
-    @Column(nullable = false)
-    private String status = "PENDING";
-
-    @PrePersist
-    protected void onCreate() {
-        this.matchedAt = new Timestamp(System.currentTimeMillis());
-    }
+    public MatchRecord() {}
 
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public UserProfile getUserA() { return userA; }
-    public void setUserA(UserProfile userA) { this.userA = userA; }
-    public UserProfile getUserB() { return userB; }
-    public void setUserB(UserProfile userB) { this.userB = userB; }
-    public Skill getSkillOfferedByA() { return skillOfferedByA; }
-    public void setSkillOfferedByA(Skill skillOfferedByA) { this.skillOfferedByA = skillOfferedByA; }
-    public Skill getSkillOfferedByB() { return skillOfferedByB; }
-    public void setSkillOfferedByB(Skill skillOfferedByB) { this.skillOfferedByB = skillOfferedByB; }
-    public Timestamp getMatchedAt() { return matchedAt; }
-    public void setMatchedAt(Timestamp matchedAt) { this.matchedAt = matchedAt; }
+    public SkillOffer getSkillOffer() { return skillOffer; }
+    public void setSkillOffer(SkillOffer skillOffer) { this.skillOffer = skillOffer; }
+    public SkillRequest getSkillRequest() { return skillRequest; }
+    public void setSkillRequest(SkillRequest skillRequest) { this.skillRequest = skillRequest; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 }
