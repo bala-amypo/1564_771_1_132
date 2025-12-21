@@ -1,7 +1,7 @@
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "skill_offers")
@@ -13,18 +13,21 @@ public class SkillOffer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private UserProfile user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "skill_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Skill skill;
 
-    private String experienceLevel; // Beginner, Intermediate, Expert
-
+    private String experienceLevel; 
     private Integer availableHoursPerWeek;
 
     @Column(nullable = false)
     private Boolean active = true;
+
+    public SkillOffer() {}
 
     // Getters and Setters
     public Long getId() { return id; }
