@@ -12,14 +12,24 @@ public class MatchRecord {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "offer_id", nullable = false)
+    @JoinColumn(name = "user_a_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private SkillOffer skillOffer;
+    private UserProfile userA;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "request_id", nullable = false)
+    @JoinColumn(name = "user_b_id", nullable = false)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private SkillRequest skillRequest;
+    private UserProfile userB;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "skill_a_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Skill skillOfferedByA;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "skill_b_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Skill skillOfferedByB;
 
     private String status; // PENDING, ACCEPTED, REJECTED
 
@@ -28,10 +38,19 @@ public class MatchRecord {
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public SkillOffer getSkillOffer() { return skillOffer; }
-    public void setSkillOffer(SkillOffer skillOffer) { this.skillOffer = skillOffer; }
-    public SkillRequest getSkillRequest() { return skillRequest; }
-    public void setSkillRequest(SkillRequest skillRequest) { this.skillRequest = skillRequest; }
+
+    public UserProfile getUserA() { return userA; }
+    public void setUserA(UserProfile userA) { this.userA = userA; }
+
+    public UserProfile getUserB() { return userB; }
+    public void setUserB(UserProfile userB) { this.userB = userB; }
+
+    public Skill getSkillOfferedByA() { return skillOfferedByA; }
+    public void setSkillOfferedByA(Skill skillOfferedByA) { this.skillOfferedByA = skillOfferedByA; }
+
+    public Skill getSkillOfferedByB() { return skillOfferedByB; }
+    public void setSkillOfferedByB(Skill skillOfferedByB) { this.skillOfferedByB = skillOfferedByB; }
+
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 }
