@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "skill_offers")
@@ -10,20 +11,27 @@ public class SkillOffer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Use JsonIgnoreProperties to stop the loop. 
+    // "skillOffers" should be the name of the field inside your UserProfile class.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"skillOffers", "hibernateLazyInitializer", "handler"})
     private UserProfile user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "skill_id", nullable = false)
+    @JsonIgnoreProperties({"skillOffers", "hibernateLazyInitializer", "handler"})
     private Skill skill;
 
-    private String experienceLevel; // Beginner, Intermediate, Expert
+    private String experienceLevel; 
 
     private Integer availableHoursPerWeek;
 
     @Column(nullable = false)
     private Boolean active = true;
+
+    // Default constructor is required by JPA
+    public SkillOffer() {}
 
     // Getters and Setters
     public Long getId() { return id; }
