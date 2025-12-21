@@ -1,4 +1,3 @@
-// Model package classes (already provided, repeated for completeness)
 package com.example.demo.model;
 
 import jakarta.persistence.*;

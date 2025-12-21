@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 package com.example.demo.model;
 
 import jakarta.persistence.*;
