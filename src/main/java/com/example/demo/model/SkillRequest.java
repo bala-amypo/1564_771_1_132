@@ -13,7 +13,7 @@ public class SkillRequest {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    // This ignores the Hibernate internal proxy fields that cause the 500 error
+    
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private UserProfile user;
 
@@ -22,12 +22,12 @@ public class SkillRequest {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Skill skill;
 
-    private String urgencyLevel; // Low, Medium, High
+    private String urgencyLevel; 
 
     @Column(nullable = false)
     private Boolean active = true;
 
-    // Default Constructor
+    
     public SkillRequest() {}
 
     
