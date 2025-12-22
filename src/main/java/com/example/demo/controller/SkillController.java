@@ -1,4 +1,3 @@
-// com/example/demo/controller/SkillController.java
 package com.example.demo.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;

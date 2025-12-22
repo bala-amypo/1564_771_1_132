@@ -30,17 +30,19 @@ public class MatchRecord {
     private Timestamp matchedAt;
 
     @Column(nullable = false)
-    private String status = "PENDING"; // Default status per requirements
+    private String status = "PENDING"; 
 
     public MatchRecord() {}
 
     @PrePersist
     protected void onCreate() {
-        this.matchedAt = new Timestamp(System.currentTimeMillis()); // Auto-populated per requirements
+        this.matchedAt = new Timestamp(System.currentTimeMillis()); 
     }
 
-    // Getters and Setters
-    public Long getId() { return id; }
+   
+    public Long getId() { 
+        return id;
+    }
     public void setId(Long id) { this.id = id; }
 
     public UserProfile getUserA() { return userA; }
