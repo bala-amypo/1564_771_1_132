@@ -1,4 +1,3 @@
-// src/main/java/com/example/barter/dto/TransactionDto.java
 package com.example.barter.dto;
 
 import lombok.AllArgsConstructor;
