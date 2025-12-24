@@ -46,8 +46,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest request) { ... }
+    public AuthResponse login(@RequestBody LoginRequest request) { 
+
+    }
 
     @PostMapping("/register")
-    public AuthResponse register(@RequestBody RegisterRequest request) { ... }
+    public AuthResponse register(@RequestBody RegisterRequest request) { 
+
+
+    }
 }
