@@ -1,0 +1,17 @@
+package com.example.barter.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class MatchDto {
+    private Long matchId;
+    private Long offerId;
+    private Long requestId;
+    private Long matchedUserId;
+    private String matchStatus;
+    private Double matchScore;
+}
