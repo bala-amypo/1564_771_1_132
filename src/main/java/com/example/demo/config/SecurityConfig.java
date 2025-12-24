@@ -18,14 +18,14 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // 🔐 AuthenticationManager bean
+    
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
-    // 🔐 Security rules
+    
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
