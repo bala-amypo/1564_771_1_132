@@ -44,4 +44,10 @@ public class AuthController {
         User user = userService.findByEmail(loginRequest.getEmail());
         return ResponseEntity.ok(user);
     }
+
+    @PostMapping("/login")
+    public AuthResponse login(@RequestBody LoginRequest request) { ... }
+
+    @PostMapping("/register")
+    public AuthResponse register(@RequestBody RegisterRequest request) { ... }
 }
