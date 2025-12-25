@@ -1,7 +1,7 @@
 package com.example.barter.exception;
 
-public class resourceNotException extends RuntimeException {
-    public BadRequestException(String message) {
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String message) {
         super(message);
     }
 }
