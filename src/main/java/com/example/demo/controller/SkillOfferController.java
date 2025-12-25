@@ -1,46 +1,51 @@
-package com.example.demo.controller;
+package com.example.barter.controller;
 
+import com.example.barter.model.SkillOffer;
+import com.example.barter.service.SkillOfferService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.example.demo.model.SkillOffer;
-import com.example.demo.service.SkillOfferService;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/skill-offers")
-@Tag(name = "Skill Offers")
+@RequestMapping("/api/offers")
+@Tag(name = "Offer", description = "Skill offer endpoints")
+@CrossOrigin(origins = "*")
 public class SkillOfferController {
-
-    private final SkillOfferService service;
-
-    public SkillOfferController(SkillOfferService service) {
-        this.service = service;
+    
+    private final SkillOfferService offerService;
+    
+    public SkillOfferController(SkillOfferService offerService) {
+        this.offerService = offerService;
     }
-
+    
     @PostMapping
-    public SkillOffer createOffer(@RequestBody SkillOffer offer) {
-        return service.createOffer(offer);
+    public ResponseEntity<SkillOffer> createOffer(@RequestBody SkillOffer offer) {
+        return ResponseEntity.ok(offerService.createOffer(offer));
     }
-
-    @PutMapping("/{id}")
-    public SkillOffer updateOffer(@PathVariable Long id, @RequestBody SkillOffer offer) {
-        return service.updateOffer(id, offer);
+    
+    @GetMapping
+    public ResponseEntity<List<SkillOffer>> getAllOffers() {
+        return ResponseEntity.ok(offerService.getAllOffers());
     }
-
+    
     @GetMapping("/{id}")
-    public SkillOffer getOfferById(@PathVariable Long id) {
-        return service.getOfferById(id);
+    public ResponseEntity<SkillOffer> getOffer(@PathVariable Long id) {
+        return ResponseEntity.ok(offerService.getOffer(id));
     }
-
+    
     @GetMapping("/user/{userId}")
-    public List<SkillOffer> getOffersByUser(@PathVariable Long userId) {
-        return service.getOffersByUser(userId);
+    public ResponseEntity<List<SkillOffer>> getOffersByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(offerService.getOffersByUser(userId));
     }
-
-    @PutMapping("/{id}/deactivate")
-    public void deactivateOffer(@PathVariable Long id) {
-        service.deactivateOffer(id);
+    
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<SkillOffer>> getOffersByCategory(@PathVariable Long categoryId) {
+        return ResponseEntity.ok(offerService.getOffersByCategory(categoryId));
+    }
+    
+    @GetMapping("/available")
+    public ResponseEntity<List<SkillOffer>> getAvailableOffers() {
+        return ResponseEntity.ok(offerService.getAvailableOffers());
     }
 }

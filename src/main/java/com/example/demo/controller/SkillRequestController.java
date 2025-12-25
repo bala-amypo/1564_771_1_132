@@ -1,46 +1,51 @@
-package com.example.demo.controller;
+package com.example.barter.controller;
 
+import com.example.barter.model.SkillRequest;
+import com.example.barter.service.SkillRequestService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.example.demo.model.SkillRequest;
-import com.example.demo.service.SkillRequestService;
-
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/skill-requests")
-@Tag(name = "Skill Requests")
+@RequestMapping("/api/requests")
+@Tag(name = "Request", description = "Skill request endpoints")
+@CrossOrigin(origins = "*")
 public class SkillRequestController {
-
-    private final SkillRequestService service;
-
-    public SkillRequestController(SkillRequestService service) {
-        this.service = service;
+    
+    private final SkillRequestService requestService;
+    
+    public SkillRequestController(SkillRequestService requestService) {
+        this.requestService = requestService;
     }
-
+    
     @PostMapping
-    public SkillRequest createRequest(@RequestBody SkillRequest request) {
-        return service.createRequest(request);
+    public ResponseEntity<SkillRequest> createRequest(@RequestBody SkillRequest request) {
+        return ResponseEntity.ok(requestService.createRequest(request));
     }
-
-    @PutMapping("/{id}")
-    public SkillRequest updateRequest(@PathVariable Long id, @RequestBody SkillRequest request) {
-        return service.updateRequest(id, request);
+    
+    @GetMapping
+    public ResponseEntity<List<SkillRequest>> getAllRequests() {
+        return ResponseEntity.ok(requestService.getAllRequests());
     }
-
+    
     @GetMapping("/{id}")
-    public SkillRequest getRequestById(@PathVariable Long id) {
-        return service.getRequestById(id);
+    public ResponseEntity<SkillRequest> getRequest(@PathVariable Long id) {
+        return ResponseEntity.ok(requestService.getRequest(id));
     }
-
+    
     @GetMapping("/user/{userId}")
-    public List<SkillRequest> getRequestsByUser(@PathVariable Long userId) {
-        return service.getRequestsByUser(userId);
+    public ResponseEntity<List<SkillRequest>> getRequestsByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(requestService.getRequestsByUser(userId));
     }
-
-    @PutMapping("/{id}/deactivate")
-    public void deactivateRequest(@PathVariable Long id) {
-        service.deactivateRequest(id);
+    
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<SkillRequest>> getRequestsByCategory(@PathVariable Long categoryId) {
+        return ResponseEntity.ok(requestService.getRequestsByCategory(categoryId));
+    }
+    
+    @GetMapping("/open")
+    public ResponseEntity<List<SkillRequest>> getOpenRequests() {
+        return ResponseEntity.ok(requestService.getOpenRequests());
     }
 }
