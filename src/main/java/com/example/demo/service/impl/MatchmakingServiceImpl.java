@@ -1,100 +1,94 @@
-package com.example.demo.service.impl;
+package com.example.barter.service.impl;
 
+import com.example.barter.exception.BadRequestException;
+import com.example.barter.exception.ResourceNotFoundException;
+import com.example.barter.model.SkillMatch;
+import com.example.barter.model.SkillOffer;
+import com.example.barter.model.SkillRequest;
+import com.example.barter.model.User;
+import com.example.barter.repository.SkillMatchRepository;
+import com.example.barter.repository.SkillOfferRepository;
+import com.example.barter.repository.SkillRequestRepository;
+import com.example.barter.repository.UserRepository;
+import com.example.barter.service.MatchService;
+import com.example.barter.util.SkillMatchingEngine;
 import org.springframework.stereotype.Service;
-
-import com.example.demo.model.MatchRecord;
-import com.example.demo.model.SkillOffer;
-import com.example.demo.model.SkillRequest;
-import com.example.demo.model.UserProfile;
-import com.example.demo.repository.MatchRecordRepository;
-import com.example.demo.repository.SkillOfferRepository;
-import com.example.demo.repository.SkillRequestRepository;
-import com.example.demo.repository.UserProfileRepository;
-import com.example.demo.service.MatchmakingService;
-
 import java.util.List;
 
 @Service
-public class MatchmakingServiceImpl implements MatchmakingService {
-
-    private final MatchRecordRepository matchRecordRepository;
-    private final UserProfileRepository userProfileRepository;
-    private final SkillOfferRepository skillOfferRepository;
-    private final SkillRequestRepository skillRequestRepository;
-
-    public MatchmakingServiceImpl(
-            MatchRecordRepository matchRecordRepository,
-            UserProfileRepository userProfileRepository,
-            SkillOfferRepository skillOfferRepository,
-            SkillRequestRepository skillRequestRepository) {
-
-        this.matchRecordRepository = matchRecordRepository;
-        this.userProfileRepository = userProfileRepository;
-        this.skillOfferRepository = skillOfferRepository;
-        this.skillRequestRepository = skillRequestRepository;
+public class MatchServiceImpl implements MatchService {
+    
+    private final SkillMatchRepository matchRepository;
+    private final SkillOfferRepository offerRepository;
+    private final SkillRequestRepository requestRepository;
+    private final UserRepository userRepository;
+    private final SkillMatchingEngine matchingEngine;
+    
+    public MatchServiceImpl(SkillMatchRepository matchRepository,
+                           SkillOfferRepository offerRepository,
+                           SkillRequestRepository requestRepository,
+                           UserRepository userRepository,
+                           SkillMatchingEngine matchingEngine) {
+        this.matchRepository = matchRepository;
+        this.offerRepository = offerRepository;
+        this.requestRepository = requestRepository;
+        this.userRepository = userRepository;
+        this.matchingEngine = matchingEngine;
     }
-
+    
     @Override
-    public MatchRecord generateMatch(Long userId) {
-
-        UserProfile userA = userProfileRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("UserProfile not found"));
-
-        List<SkillRequest> requestsA = skillRequestRepository.findByUser_Id(userId);
-        List<SkillOffer> offersA = skillOfferRepository.findByUser_Id(userId);
-
-        for (SkillRequest requestA : requestsA) {
-
-            List<SkillOffer> offersB =
-                    skillOfferRepository.findBySkill_Id(requestA.getSkill().getId());
-
-            for (SkillOffer offerB : offersB) {
-
-                if (offerB.getUser().getId().equals(userId)) {
-                    continue;
-                }
-
-                UserProfile userB = offerB.getUser();
-                List<SkillRequest> requestsB =
-                        skillRequestRepository.findByUser_Id(userB.getId());
-
-                for (SkillRequest requestB : requestsB) {
-                    for (SkillOffer offerA : offersA) {
-
-                        if (offerA.getSkill().getId()
-                                .equals(requestB.getSkill().getId())) {
-
-                            MatchRecord match = new MatchRecord();
-                            match.setUserA(userA);
-                            match.setUserB(userB);
-                            match.setSkillOfferedByA(offerA.getSkill());
-                            match.setSkillOfferedByB(offerB.getSkill());
-
-                            return matchRecordRepository.save(match);
-                        }
-                    }
-                }
-            }
+    public SkillMatch createMatch(Long offerId, Long requestId, Long adminUserId) {
+        SkillOffer offer = offerRepository.findById(offerId)
+                .orElseThrow(() -> new BadRequestException("Offer not found"));
+        
+        SkillRequest request = requestRepository.findById(requestId)
+                .orElseThrow(() -> new BadRequestException("Request not found"));
+        
+        User admin = userRepository.findById(adminUserId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        
+        if (offer.getUser().getId().equals(request.getUser().getId())) {
+            throw new BadRequestException("Offer and request must be from different users");
         }
-
-        throw new RuntimeException("No match found");
+        
+        SkillMatch match = new SkillMatch();
+        match.setOffer(offer);
+        match.setRequest(request);
+        match.setMatchedBy(admin);
+        match.setMatchScore(matchingEngine.calculateMatchScore(offer, request));
+        
+        try {
+            return matchRepository.save(match);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Match not found");
+        }
     }
-
+    
     @Override
-    public MatchRecord getMatchById(Long id) {
-        return matchRecordRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Match not found"));
+    public SkillMatch getMatch(Long id) {
+        return matchRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Match not found"));
     }
-
+    
     @Override
-    public List<MatchRecord> getMatchesForUser(Long userId) {
-        return matchRecordRepository.findByUserA_IdOrUserB_Id(userId, userId);
+    public List<SkillMatch> getAllMatches() {
+        return matchRepository.findAll();
     }
-
+    
     @Override
-    public void updateMatchStatus(Long id, String status) {
-        MatchRecord match = getMatchById(id);
-        match.setStatus(status);
-        matchRecordRepository.save(match);
+    public SkillMatch updateMatchStatus(Long matchId, String status) {
+        SkillMatch match = getMatch(matchId);
+        match.setMatchStatus(status);
+        return matchRepository.save(match);
+    }
+    
+    @Override
+    public List<SkillMatch> getMatchesByOffer(Long offerId) {
+        return matchRepository.findByOfferId(offerId);
+    }
+    
+    @Override
+    public List<SkillMatch> getMatchesByRequest(Long requestId) {
+        return matchRepository.findByRequestId(requestId);
     }
 }

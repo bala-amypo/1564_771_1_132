@@ -1,50 +1,60 @@
-package com.example.demo.service.impl;
+package com.example.barter.service.impl;
 
+import com.example.barter.exception.BadRequestException;
+import com.example.barter.exception.ResourceNotFoundException;
+import com.example.barter.model.SkillRequest;
+import com.example.barter.repository.SkillRequestRepository;
+import com.example.barter.repository.SkillCategoryRepository;
+import com.example.barter.service.SkillRequestService;
 import org.springframework.stereotype.Service;
-
-import com.example.demo.model.SkillRequest;
-import com.example.demo.repository.SkillRequestRepository;
-import com.example.demo.service.SkillRequestService;
-
 import java.util.List;
 
 @Service
 public class SkillRequestServiceImpl implements SkillRequestService {
-
-    private final SkillRequestRepository repository;
-
-    public SkillRequestServiceImpl(SkillRequestRepository repository) {
-        this.repository = repository;
+    
+    private final SkillRequestRepository requestRepository;
+    private final SkillCategoryRepository categoryRepository;
+    
+    public SkillRequestServiceImpl(SkillRequestRepository requestRepository,
+                                   SkillCategoryRepository categoryRepository) {
+        this.requestRepository = requestRepository;
+        this.categoryRepository = categoryRepository;
     }
-
+    
     @Override
     public SkillRequest createRequest(SkillRequest request) {
-        request.setActive(true);
-        return repository.save(request);
+        if (request == null) {
+            throw new ResourceNotFoundException("Request not found");
+        }
+        if (request.getSkillName() == null || request.getSkillName().length() < 5) {
+            throw new BadRequestException("Skill name must be at least 5 characters");
+        }
+        return requestRepository.save(request);
     }
-
+    
     @Override
-    public SkillRequest updateRequest(Long id, SkillRequest updatedRequest) {
-        SkillRequest request = getRequestById(id);
-        request.setUrgencyLevel(updatedRequest.getUrgencyLevel());
-        return repository.save(request);
+    public SkillRequest getRequest(Long id) {
+        return requestRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Request not found"));
     }
-
+    
     @Override
-    public SkillRequest getRequestById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Request not found with id: " + id));
+    public List<SkillRequest> getAllRequests() {
+        return requestRepository.findAll();
     }
-
+    
     @Override
     public List<SkillRequest> getRequestsByUser(Long userId) {
-        return repository.findByUser_Id(userId);
+        return requestRepository.findByUserId(userId);
     }
-
+    
     @Override
-    public void deactivateRequest(Long id) {
-        SkillRequest request = getRequestById(id);
-        request.setActive(false);
-        repository.save(request);
+    public List<SkillRequest> getRequestsByCategory(Long categoryId) {
+        return requestRepository.findBySkillCategoryId(categoryId);
+    }
+    
+    @Override
+    public List<SkillRequest> getOpenRequests() {
+        return requestRepository.findByStatus("OPEN");
     }
 }
