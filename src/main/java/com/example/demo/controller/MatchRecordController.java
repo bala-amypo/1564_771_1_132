@@ -57,3 +57,4 @@ public class MatchRecordController {
         return ResponseEntity.ok(matchService.getMatchesByRequest(requestId));
     }
 }
+
