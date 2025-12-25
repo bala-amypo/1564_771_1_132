@@ -1,14 +1,13 @@
-package com.example.demo.service;
+package com.example.barter.service;
 
+import com.example.barter.model.SkillOffer;
 import java.util.List;
-
-import com.example.demo.model.SkillOffer;
 
 public interface SkillOfferService {
     SkillOffer createOffer(SkillOffer offer);
-    SkillOffer updateOffer(Long id, SkillOffer offer);
-    SkillOffer getOfferById(Long id);
+    SkillOffer getOffer(Long id);
+    List<SkillOffer> getAllOffers();
     List<SkillOffer> getOffersByUser(Long userId);
-    void deactivateOffer(Long id);
+    List<SkillOffer> getOffersByCategory(Long categoryId);
+    List<SkillOffer> getAvailableOffers();
 }
-
