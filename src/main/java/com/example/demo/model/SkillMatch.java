@@ -7,33 +7,32 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "skill_offers")
+@Table(name = "skill_matches")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SkillOffer {
+public class SkillMatch {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "offer_id", nullable = false)
+    private SkillOffer offer;
     
     @ManyToOne
-    @JoinColumn(name = "skill_category_id", nullable = false)
-    private SkillCategory skillCategory;
+    @JoinColumn(name = "request_id", nullable = false)
+    private SkillRequest request;
+    
+    @ManyToOne
+    @JoinColumn(name = "matched_by_user_id", nullable = false)
+    private User matchedBy;
     
     @Column(nullable = false)
-    private String skillName;
-    
-    private String description;
+    private String matchStatus = "PENDING";
     
     @Column(nullable = false)
-    private String experienceLevel;
-    
-    @Column(nullable = false)
-    private String availability = "AVAILABLE";
+    private Double matchScore = 0.0;
     
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

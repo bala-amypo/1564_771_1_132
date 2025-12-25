@@ -1,44 +1,43 @@
-package com.example.demo.model;
+package com.example.barter.model;
 
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "skill_requests")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SkillRequest {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    private User user;
     
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private UserProfile user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "skill_id", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Skill skill;
-
-    private String urgencyLevel; 
-
+    @ManyToOne
+    @JoinColumn(name = "skill_category_id", nullable = false)
+    private SkillCategory skillCategory;
+    
     @Column(nullable = false)
-    private Boolean active = true;
-
+    private String skillName;
     
-    public SkillRequest() {}
-
+    @Column(nullable = false)
+    private String requiredLevel;
     
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public UserProfile getUser() { return user; }
-    public void setUser(UserProfile user) { this.user = user; }
-    public Skill getSkill() { return skill; }
-    public void setSkill(Skill skill) { this.skill = skill; }
-    public String getUrgencyLevel() { return urgencyLevel; }
-    public void setUrgencyLevel(String urgencyLevel) { this.urgencyLevel = urgencyLevel; }
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    @Column(nullable = false)
+    private String status = "OPEN";
+    
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+    
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 }
