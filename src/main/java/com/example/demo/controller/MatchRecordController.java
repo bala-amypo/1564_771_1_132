@@ -16,7 +16,7 @@ public class MatchRecordController {
     
     private final MatchService matchService;
     
-    public MatchController(MatchService matchService) {
+    public List<MatchRecord> getAllMatches() {
         this.matchService = matchService;
     }
     
