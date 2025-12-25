@@ -1,41 +1,59 @@
-package com.example.demo.controller;
+package com.example.barter.controller;
 
+import com.example.barter.model.SkillMatch;
+import com.example.barter.service.MatchService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import com.example.demo.model.MatchRecord;
-import com.example.demo.service.MatchmakingService;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/matches")
-@Tag(name = "Matches")
-public class MatchRecordController {
-
-    private final MatchmakingService service;
-
-    public MatchRecordController(MatchmakingService service) {
-        this.service = service;
+@Tag(name = "Match", description = "Skill match endpoints")
+@CrossOrigin(origins = "*")
+public class MatchController {
+    
+    private final MatchService matchService;
+    
+    public MatchController(MatchService matchService) {
+        this.matchService = matchService;
     }
-
-    @PostMapping("/generate/{userId}")
-    public MatchRecord generateMatch(@PathVariable Long userId) {
-        return service.generateMatch(userId);
+    
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<SkillMatch> createMatch(
+            @RequestParam Long offerId,
+            @RequestParam Long requestId,
+            @RequestParam Long adminUserId) {
+        return ResponseEntity.ok(matchService.createMatch(offerId, requestId, adminUserId));
     }
-
+    
+    @GetMapping
+    public ResponseEntity<List<SkillMatch>> getAllMatches() {
+        return ResponseEntity.ok(matchService.getAllMatches());
+    }
+    
     @GetMapping("/{id}")
-    public MatchRecord getMatchById(@PathVariable Long id) {
-        return service.getMatchById(id);
+    public ResponseEntity<SkillMatch> getMatch(@PathVariable Long id) {
+        return ResponseEntity.ok(matchService.getMatch(id));
     }
-
-    @GetMapping("/user/{userId}")
-    public List<MatchRecord> getMatchesForUser(@PathVariable Long userId) {
-        return service.getMatchesForUser(userId);
-    }
-
+    
     @PutMapping("/{id}/status")
-    public void updateMatchStatus(@PathVariable Long id, @RequestBody String status) {
-        service.updateMatchStatus(id, status.trim().replace("\"", ""));
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<SkillMatch> updateMatchStatus(
+            @PathVariable Long id,
+            @RequestParam String status) {
+        return ResponseEntity.ok(matchService.updateMatchStatus(id, status));
+    }
+    
+    @GetMapping("/offer/{offerId}")
+    public ResponseEntity<List<SkillMatch>> getMatchesByOffer(@PathVariable Long offerId) {
+        return ResponseEntity.ok(matchService.getMatchesByOffer(offerId));
+    }
+    
+    @GetMapping("/request/{requestId}")
+    public ResponseEntity<List<SkillMatch>> getMatchesByRequest(@PathVariable Long requestId) {
+        return ResponseEntity.ok(matchService.getMatchesByRequest(requestId));
     }
 }
