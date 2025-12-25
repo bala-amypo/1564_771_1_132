@@ -1,58 +1,43 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.User;
-import com.example.demo.service.UserService;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.example.demo.dto.AuthResponse;
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.RegisterRequest;
+import com.example.demo.service.AuthService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.example.demo.dto.LoginResponse
+import org.springframework.web.bind.annotation.*;
+
 @RestController
-@RequestMapping("/auth")
-@Tag(name = "Authentication")
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class AuthController {
-
-    private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
-   
-    public AuthController(UserService userService,
-                          PasswordEncoder passwordEncoder,
-                          AuthenticationManager authenticationManager) {
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-    }
-
+    
+    private final AuthService authService;
+    
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (user.getRole() == null || user.getRole().isEmpty()) {
-            user.setRole("MONITOR");
+    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+        try {
+            AuthResponse response = authService.register(request);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(null);
         }
-
-        User savedUser = userService.register(user);
-        return ResponseEntity.ok(savedUser);
     }
-
+    
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody User loginRequest) {
-      
-        User user = userService.findByEmail(loginRequest.getEmail());
-        return ResponseEntity.ok(user);
+    public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
+        try {
+            AuthResponse response = authService.login(request);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
-
-    @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest request) { 
-
-    }
-
-    @PostMapping("/register")
-    public AuthResponse register(@RequestBody RegisterRequest request) { 
-
-
+    
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("Auth endpoints are working!");
     }
 }
