@@ -1,51 +1,63 @@
-package com.example.demo.service.impl;
+package com.example.barter.service.impl;
 
+import com.example.barter.exception.BadRequestException;
+import com.example.barter.exception.ResourceNotFoundException;
+import com.example.barter.model.SkillOffer;
+import com.example.barter.repository.SkillOfferRepository;
+import com.example.barter.repository.SkillCategoryRepository;
+import com.example.barter.service.SkillOfferService;
 import org.springframework.stereotype.Service;
-
-import com.example.demo.model.SkillOffer;
-import com.example.demo.repository.SkillOfferRepository;
-import com.example.demo.service.SkillOfferService;
-
 import java.util.List;
 
 @Service
 public class SkillOfferServiceImpl implements SkillOfferService {
-
-    private final SkillOfferRepository repository;
-
-    public SkillOfferServiceImpl(SkillOfferRepository repository) {
-        this.repository = repository;
+    
+    private final SkillOfferRepository offerRepository;
+    private final SkillCategoryRepository categoryRepository;
+    
+    public SkillOfferServiceImpl(SkillOfferRepository offerRepository, 
+                                 SkillCategoryRepository categoryRepository) {
+        this.offerRepository = offerRepository;
+        this.categoryRepository = categoryRepository;
     }
-
+    
     @Override
     public SkillOffer createOffer(SkillOffer offer) {
-        offer.setActive(true);
-        return repository.save(offer);
+        if (offer == null) {
+            throw new ResourceNotFoundException("Offer not found");
+        }
+        if (offer.getSkillName() == null || offer.getSkillName().length() < 5) {
+            throw new BadRequestException("Skill name must be at least 5 characters");
+        }
+        if (offer.getDescription() != null && offer.getDescription().length() < 10) {
+            throw new BadRequestException("Description must be at least 10 characters");
+        }
+        return offerRepository.save(offer);
     }
-
+    
     @Override
-    public SkillOffer updateOffer(Long id, SkillOffer updatedOffer) {
-        SkillOffer offer = getOfferById(id);
-        offer.setExperienceLevel(updatedOffer.getExperienceLevel());
-        offer.setAvailableHoursPerWeek(updatedOffer.getAvailableHoursPerWeek());
-        return repository.save(offer);
+    public SkillOffer getOffer(Long id) {
+        return offerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Offer not found"));
     }
-
+    
     @Override
-    public SkillOffer getOfferById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Offer not found with id: " + id));
+    public List<SkillOffer> getAllOffers() {
+        return offerRepository.findAll();
     }
-
+    
     @Override
     public List<SkillOffer> getOffersByUser(Long userId) {
-        return repository.findByUser_Id(userId);
+        return offerRepository.findByUserId(userId);
     }
-
+    
     @Override
-    public void deactivateOffer(Long id) {
-        SkillOffer offer = getOfferById(id);
-        offer.setActive(false);
-        repository.save(offer);
+    public List<SkillOffer> getOffersByCategory(Long categoryId) {
+        return offerRepository.findBySkillCategoryId(categoryId);
+    }
+    
+    @Override
+    public List<SkillOffer> getAvailableOffers() {
+        return offerRepository.findByAvailability("AVAILABLE");
     }
 }
