@@ -40,3 +40,4 @@ public class BarterTransaction {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
     }
+}
