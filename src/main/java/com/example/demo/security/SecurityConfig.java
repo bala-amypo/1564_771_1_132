@@ -1,6 +1,6 @@
-package com.example.barter.config;
+package com.example.demo.config;
 
-import com.example.barter.security.JwtFilter;
+import com.example.demo.security.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

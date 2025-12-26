@@ -1,7 +1,7 @@
-package com.example.barter.security;
+package com.example.demo.security;
 
-import com.example.barter.model.User;
-import com.example.barter.repository.UserRepository;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
