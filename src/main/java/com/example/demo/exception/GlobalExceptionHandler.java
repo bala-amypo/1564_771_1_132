@@ -1,12 +1,13 @@
-package com.example.demo.exception;
+package com.example.barter.exception;
 
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    
-    public GlobalExceptionHandler() {
+    @ExceptionHandler(RuntimeException.class)
+    public String handleRuntimeException(RuntimeException ex) {
+        return ex.getMessage();
     }
-
 }
