@@ -4,6 +4,7 @@ import com.example.demo.model.SkillOffer;
 import com.example.demo.service.SkillOfferService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/api/offers")

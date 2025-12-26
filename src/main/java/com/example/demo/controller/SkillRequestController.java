@@ -4,7 +4,7 @@ import com.example.demo.model.SkillRequest;
 import com.example.demo.service.SkillRequestService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @RestController
 @RequestMapping("/api/requests")
 @SecurityRequirement(name = "bearerAuth")

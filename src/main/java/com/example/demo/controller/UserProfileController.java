@@ -4,6 +4,7 @@ import com.example.demo.model.UserProfile;
 import com.example.demo.service.UserProfileService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/api/users")
