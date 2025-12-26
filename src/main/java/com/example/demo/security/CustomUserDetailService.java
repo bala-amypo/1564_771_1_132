@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailService implements UserDetailService {
 
     private final UserRepository userRepository;
 
    
-    public CustomUserDetailsService(UserRepository userRepository) {
+    public CustomUserDetailService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
