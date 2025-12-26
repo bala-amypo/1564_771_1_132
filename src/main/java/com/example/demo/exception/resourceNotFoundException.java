@@ -1,8 +1,15 @@
 package com.example.demo.exception;
 
-public class resourceNotFoundException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-    public resourceNotFoundException(String message) {
-        super(message);
+@RestControllerAdvice
+public class resourceNotFoundHandler {
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<String> handleNotFound(ResourceNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
