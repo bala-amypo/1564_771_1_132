@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/skills")
+@SecurityRequirement(name = "bearerAuth")
 public class SkillController {
 
     private final SkillService service;

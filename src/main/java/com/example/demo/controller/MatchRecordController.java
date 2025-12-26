@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/matches")
+@SecurityRequirement(name = "bearerAuth")
 public class MatchRecordController {
 
     private final MatchmakingService service;

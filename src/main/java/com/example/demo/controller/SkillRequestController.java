@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/requests")
+@SecurityRequirement(name = "bearerAuth")
 public class SkillRequestController {
 
     private final SkillRequestService service;
