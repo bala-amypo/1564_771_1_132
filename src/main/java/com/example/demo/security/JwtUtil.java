@@ -31,20 +31,71 @@
 //     }
 // }
 
+// package com.example.demo.security;
+
+// import io.jsonwebtoken.*;
+// import io.jsonwebtoken.security.Keys;
+// import org.springframework.stereotype.Component;
+
+// import java.security.Key;
+// import java.util.Date;
+
+// @Component
+// public class JwtUtil {
+
+//     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+//     private final long EXPIRATION = 1000 * 60 * 60; // 1 hour
+
+//     public String generateToken(String email, String role, Long userId) {
+//         return Jwts.builder()
+//                 .setSubject(email)
+//                 .claim("role", role)
+//                 .claim("userId", userId)
+//                 .setIssuedAt(new Date())
+//                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+//                 .signWith(key)
+//                 .compact();
+//     }
+
+//     public boolean validateToken(String token) {
+//         try {
+//             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+//             return true;
+//         } catch (JwtException | IllegalArgumentException e) {
+//             return false;
+//         }
+//     }
+
+//     public String extractEmail(String token) {
+//         return extractClaims(token).getSubject();
+//     }
+
+//     public String extractRole(String token) {
+//         return extractClaims(token).get("role", String.class);
+//     }
+
+//     public Long extractUserId(String token) {
+//         return extractClaims(token).get("userId", Long.class);
+//     }
+
+//     private Claims extractClaims(String token) {
+//         return Jwts.parserBuilder()
+//                 .setSigningKey(key)
+//                 .build()
+//                 .parseClaimsJws(token)
+//                 .getBody();
+//     }
+// }
+
+
 package com.example.demo.security;
 
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Component;
-
-import java.security.Key;
 import java.util.Date;
 
-@Component
 public class JwtUtil {
 
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final long EXPIRATION = 1000 * 60 * 60; // 1 hour
+    private final String SECRET = "skillbartersecretkey";
 
     public String generateToken(String email, String role, Long userId) {
         return Jwts.builder()
@@ -52,38 +103,36 @@ public class JwtUtil {
                 .claim("role", role)
                 .claim("userId", userId)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
-                .signWith(key)
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+                .signWith(SignatureAlgorithm.HS256, SECRET)
                 .compact();
     }
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
             return true;
-        } catch (JwtException | IllegalArgumentException e) {
+        } catch (Exception e) {
             return false;
         }
     }
 
     public String extractEmail(String token) {
-        return extractClaims(token).getSubject();
+        return getClaims(token).getSubject();
     }
 
     public String extractRole(String token) {
-        return extractClaims(token).get("role", String.class);
+        return getClaims(token).get("role", String.class);
     }
 
     public Long extractUserId(String token) {
-        return extractClaims(token).get("userId", Long.class);
+        return getClaims(token).get("userId", Long.class);
     }
 
-    private Claims extractClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
+    private Claims getClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(SECRET)
                 .parseClaimsJws(token)
                 .getBody();
     }
 }
-
