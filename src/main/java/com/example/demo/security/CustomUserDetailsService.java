@@ -1,9 +1,12 @@
 package com.example.demo.security;
 
 import com.example.demo.model.AppUser;
-import com.example.demo.service.UserService;
+import com.example.demo.repository.AppUserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.*;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,19 +14,19 @@ import java.util.List;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserService userService;
+    private final AppUserRepository appUserRepository;
 
-    public CustomUserDetailsService(UserService userService) {
-        this.userService = userService;
+    public CustomUserDetailsService(AppUserRepository appUserRepository) {
+        this.appUserRepository = appUserRepository;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        AppUser user = userService.findByEmail(email);
+    public UserDetails loadUserByUsername(String email)
+            throws UsernameNotFoundException {
 
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
+        AppUser user = appUserRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("User not found: " + email));
 
         return new User(
                 user.getEmail(),
