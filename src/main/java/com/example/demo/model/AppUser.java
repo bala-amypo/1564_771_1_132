@@ -1,7 +1,7 @@
 package com.example.demo.model;
 
 import java.time.LocalDateTime;
-
+@Entity
 public class AppUser {
 
     private Long id;
