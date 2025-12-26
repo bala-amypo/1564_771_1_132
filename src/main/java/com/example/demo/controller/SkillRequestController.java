@@ -1,4 +1,4 @@
-package com.example.barter.controller;
+package com.example.demo.controller;
 
 import com.example.barter.model.SkillRequest;
 import com.example.barter.service.SkillRequestService;
