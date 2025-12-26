@@ -1,14 +1,31 @@
 package com.example.demo.model;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "users")
 public class AppUser {
-    private String role;
-    private LocalDateTime createdAt;
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    private String name;
+    private String email;
+
+    public AppUser() {}
+
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 }
