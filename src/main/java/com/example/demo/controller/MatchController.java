@@ -12,11 +12,11 @@ import java.util.List;
 @RequestMapping("/api/matches")
 @Tag(name = "Match", description = "Skill match endpoints")
 @CrossOrigin(origins = "*")
-public class MatchRecordController {
+public class MatchController {
     
     private final MatchService matchService;
     
-    public List<MatchRecord> getAllMatches() {
+    public MatchController(MatchService matchService) {
         this.matchService = matchService;
     }
     
@@ -57,4 +57,3 @@ public class MatchRecordController {
         return ResponseEntity.ok(matchService.getMatchesByRequest(requestId));
     }
 }
-
