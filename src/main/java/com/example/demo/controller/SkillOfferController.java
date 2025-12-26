@@ -3,7 +3,10 @@ package com.example.demo.controller;
 import com.example.demo.model.SkillOffer;
 import com.example.demo.service.SkillOfferService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+@RestController
+@RequestMapping("/api/offers")
 public class SkillOfferController {
 
     private final SkillOfferService service;
@@ -12,11 +15,13 @@ public class SkillOfferController {
         this.service = service;
     }
 
-    public ResponseEntity<SkillOffer> create(SkillOffer offer) {
+    @PostMapping
+    public ResponseEntity<SkillOffer> create(@RequestBody SkillOffer offer) {
         return ResponseEntity.ok(service.createOffer(offer));
     }
 
-    public ResponseEntity<SkillOffer> get(Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<SkillOffer> get(@PathVariable Long id) {
         return ResponseEntity.ok(service.getOfferById(id));
     }
 }

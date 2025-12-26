@@ -3,7 +3,10 @@ package com.example.demo.controller;
 import com.example.demo.model.UserProfile;
 import com.example.demo.service.UserProfileService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+@RestController
+@RequestMapping("/api/users")
 public class UserProfileController {
 
     private final UserProfileService service;
@@ -12,15 +15,18 @@ public class UserProfileController {
         this.service = service;
     }
 
-    public ResponseEntity<UserProfile> create(UserProfile user) {
+    @PostMapping
+    public ResponseEntity<UserProfile> create(@RequestBody UserProfile user) {
         return ResponseEntity.ok(service.createUser(user));
     }
 
-    public ResponseEntity<UserProfile> get(Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<UserProfile> get(@PathVariable Long id) {
         return ResponseEntity.ok(service.getUserById(id));
     }
 
-    public ResponseEntity<Void> deactivate(Long id) {
+    @PutMapping("/{id}/deactivate")
+    public ResponseEntity<Void> deactivate(@PathVariable Long id) {
         service.deactivateUser(id);
         return ResponseEntity.ok().build();
     }
