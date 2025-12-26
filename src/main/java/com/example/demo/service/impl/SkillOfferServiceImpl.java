@@ -1,7 +1,7 @@
-package com.example.barter.service.impl;
+package com.example.demo.service.impl;
 
-import com.example.barter.exception.BadRequestException;
-import com.example.barter.exception.ResourceNotFoundException;
+import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.barter.model.SkillOffer;
 import com.example.barter.repository.SkillOfferRepository;
 import com.example.barter.repository.SkillCategoryRepository;

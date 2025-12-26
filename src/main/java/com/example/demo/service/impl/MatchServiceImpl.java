@@ -1,17 +1,17 @@
-package com.example.barter.service.impl;
+package com.example.demo.service.impl;
 
-import com.example.barter.exception.BadRequestException;
-import com.example.barter.exception.ResourceNotFoundException;
-import com.example.barter.model.SkillMatch;
-import com.example.barter.model.SkillOffer;
-import com.example.barter.model.SkillRequest;
-import com.example.barter.model.User;
-import com.example.barter.repository.SkillMatchRepository;
-import com.example.barter.repository.SkillOfferRepository;
-import com.example.barter.repository.SkillRequestRepository;
-import com.example.barter.repository.UserRepository;
-import com.example.barter.service.MatchService;
-import com.example.barter.util.SkillMatchingEngine;
+import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.SkillMatch;
+import com.example.demo.model.SkillOffer;
+import com.example.demo.model.SkillRequest;
+import com.example.demo.model.User;
+import com.example.demo.repository.SkillMatchRepository;
+import com.example.demo.repository.SkillOfferRepository;
+import com.example.demo.repository.SkillRequestRepository;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.service.MatchService;
+import com.example.demo.util.SkillMatchingEngine;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
