@@ -2,7 +2,7 @@ package com.example.demo.exception;
 
 public class resourceNotFoundException extends RuntimeException {
 
-    public resourceNotFoundException(String message) {
+    public ResourceNotFoundException(String message) {
         super(message);
     }
 }
