@@ -1,13 +1,8 @@
 package com.example.demo.exception;
 
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+public class GlobalExceptionHandler extends RuntimeException {
 
-@RestControllerAdvice
-public class GlobalExceptionHandler {
-
-    @ExceptionHandler(RuntimeException.class)
-    public String handleRuntimeException(RuntimeException ex) {
-        return ex.getMessage();
+    public GlobalExceptionHandler(String message) {
+        super(message);
     }
 }
