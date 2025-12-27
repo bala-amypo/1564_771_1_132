@@ -135,20 +135,34 @@ public class AuthController {
     }
 
    
+    // @PostMapping("/register")
+    // public ResponseEntity<AppUser> register(@RequestBody RegisterRequest request) {
+
+        
+    //     AppUser user = new AppUser();
+    //     user.setEmail(request.getEmail());
+    //     user.setPassword(request.getPassword());
+    //     user.setName(request.getName());
+    //     user.setRole(request.getRole() != null ? request.getRole() : "USER"); 
+
+        
+    //     AppUser savedUser = userService.register(user);
+
+    //     return ResponseEntity.ok(savedUser);
+    // }
+
+
     @PostMapping("/register")
     public ResponseEntity<AppUser> register(@RequestBody RegisterRequest request) {
 
-        
         AppUser user = new AppUser();
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        user.setPassword(request.getPassword()); // raw password OK here
         user.setName(request.getName());
-        user.setRole(request.getRole() != null ? request.getRole() : "USER"); 
+        user.setRole(request.getRole() != null ? request.getRole() : "USER");
 
-        
         AppUser savedUser = userService.register(user);
-
         return ResponseEntity.ok(savedUser);
-    }
+}
 }
 
