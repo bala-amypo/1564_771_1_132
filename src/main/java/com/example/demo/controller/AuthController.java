@@ -157,7 +157,7 @@ public class AuthController {
 
         AppUser user = new AppUser();
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword()); // raw password OK here
+        user.setPassword(request.getPassword()); 
         user.setName(request.getName());
         user.setRole(request.getRole() != null ? request.getRole() : "USER");
 
