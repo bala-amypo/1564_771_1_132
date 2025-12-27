@@ -109,11 +109,11 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    // ================= LOGIN =================
+    
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
 
-        // Authenticate user credentials
+        
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -121,10 +121,10 @@ public class AuthController {
                 )
         );
 
-        // Fetch user details
+        
         AppUser user = userService.findByEmail(request.getEmail());
 
-        // Generate JWT token
+        
         String token = jwtUtil.generateToken(
                 user.getEmail(),
                 user.getRole(),
@@ -134,18 +134,18 @@ public class AuthController {
         return ResponseEntity.ok(new LoginResponse(token));
     }
 
-    // ================= REGISTER =================
+   
     @PostMapping("/register")
     public ResponseEntity<AppUser> register(@RequestBody RegisterRequest request) {
 
-        // Map DTO to Entity
+        
         AppUser user = new AppUser();
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
         user.setName(request.getName());
-        user.setRole(request.getRole() != null ? request.getRole() : "USER"); // default role
+        user.setRole(request.getRole() != null ? request.getRole() : "USER"); 
 
-        // Call service to register
+        
         AppUser savedUser = userService.register(user);
 
         return ResponseEntity.ok(savedUser);
