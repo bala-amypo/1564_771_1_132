@@ -15,7 +15,7 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                // Add security scheme
+                
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth",
                                 new SecurityScheme()
@@ -24,7 +24,7 @@ public class OpenApiConfig {
                                         .bearerFormat("JWT")
                                         .description("Enter JWT token")))
                 
-                // Add server
+                
                 .servers(List.of(
                         new Server().url("https://9088.pro604cr.amypo.ai")
                 ));
